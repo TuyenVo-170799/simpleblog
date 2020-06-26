@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Add post</title>
+    <script src="//cdn.ckeditor.com/4.14.0/full/ckeditor.js"></script>
+</head>
+<body>
+    <div layout:fragment="content">
+        <ol class="breadcrumb mb-4 mt-4">
+            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+            <li class="breadcrumb-item active">Add Post</li>
+        </ol>
+        <form th:action="@{/admin/add}" th:object="${post}" method="post">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input  type="text" class="form-control" id="title" th:field="*{title}"/>
+                <p class="help-block text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+            </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select class="form-control" id="category" th:field="*{categoryName}">
+                    <option th:each="item: ${categories}" th:value="${item.getName()}" th:text="${item.getName()}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="thumbnail">Thumbnail</label>
+                <input  type="file" class="form-control" id="thumbnail" th:field="*{thumbnail}"/>
+            </div>
+            <div class="form-group">
+                <label for="shortDescription">ShortDescription</label>
+                <textarea class="form-control" id="shortDescription" th:field="*{shortDescription}"></textarea>
+                <p class="help-block text-danger" th:if="${#fields.hasErrors('shortDescription')}" th:errors="*{shortDescription}"></p>
+            </div>
+            <div class="form-group">
+                <label>Content</label>
+                <textarea class="form-control" id="content" name="content" rows="" cols="" th:field="*{content}"></textarea>
+                <p class="help-block text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+        <script>
+            CKEDITOR.replace('content');
+        </script>
+    </div>
+</body>
+</html>
